@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sekilas Rumah — Edukasi Properti Indonesia</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+  /* =============================================
+     BRAND PALETTE — @sekilas.rumah
+     ============================================= */
+  :root {
+    --deep-navy:   #070D18;  /* Background utama */
+    --navy:        #0D1B2E;  /* Background slide */
+    --navy-mid:    #162840;  /* Surface / card */
+    --navy-light:  #1E3A58;  /* Hover / elevated */
+    --gold:        #E8B84B;  /* Aksen utama / CTA ⭐ */
+    --gold-light:  #F5D98A;  /* Highlight / glow */
+    --cream:       #F5F0E8;  /* Teks utama */
+    --red:         #E05252;  /* Red flag / warning */
+    --green:       #4DB87A;  /* Positif / aman */
+    --cream-muted: rgba(245,240,232,0.55);
+    --border:      rgba(232,184,75,0.15);
+    --radius:      12px;
+    --radius-lg:   20px;
+    --font:        'Plus Jakarta Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--deep-navy);
+    color: var(--cream);
+    line-height: 1.65;
+  }
+  a { text-decoration: none; color: inherit; }
+  .container { max-width: 700px; margin: 0 auto; padding: 0 22px; }
+  section { padding: 72px 0; }
+
+  /* ---- NAV ---- */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,13,24,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 15px 0;
+  }
+  nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.3px; color: var(--cream); }
+  .logo span { color: var(--gold); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--gold); color: var(--deep-navy);
+    padding: 8px 18px; border-radius: 999px;
+    font-size: 0.82rem; font-weight: 700;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .nav-cta svg { width: 14px; height: 14px; }
+
+  /* ---- HERO ---- */
+  .hero {
+    background: var(--navy);
+    padding: 88px 0 80px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  /* Subtle gold glow blob */
+  .hero::before {
+    content: '';
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 350px;
+    background: radial-gradient(ellipse, rgba(232,184,75,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(232,184,75,0.12);
+    border: 1px solid rgba(232,184,75,0.3);
+    color: var(--gold);
+    font-size: 0.74rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 5.5vw, 2.75rem);
+    font-weight: 700; line-height: 1.18;
+    letter-spacing: -0.6px;
+    margin-bottom: 18px;
+    color: var(--cream);
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero p {
+    font-size: 1rem; color: var(--cream-muted);
+    max-width: 490px; margin: 0 auto 40px;
+  }
+  .btn-gold {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--gold); color: var(--deep-navy);
+    font-weight: 700; font-size: 0.95rem;
+    padding: 15px 30px; border-radius: 999px;
+    box-shadow: 0 0 28px rgba(232,184,75,0.3);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(232,184,75,0.45);
+  }
+  .btn-gold svg { width: 18px; height: 18px; }
+  .hero-note { margin-top: 16px; font-size: 0.76rem; color: rgba(245,240,232,0.35); }
+
+  /* ---- PROBLEM ---- */
+  .problem { background: var(--deep-navy); }
+  .section-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(1.35rem, 4vw, 1.95rem);
+    font-weight: 700; letter-spacing: -0.4px;
+    line-height: 1.22; margin-bottom: 18px;
+    color: var(--cream);
+  }
+  .problem-grid { display: grid; gap: 14px; margin-top: 38px; }
+  .problem-card {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .problem-card:hover { background: var(--navy-light); border-color: rgba(232,184,75,0.3); }
+  .problem-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: rgba(232,184,75,0.1);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.05rem;
+  }
+  .problem-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; color: var(--cream); }
+  .problem-card p { font-size: 0.82rem; color: var(--cream-muted); line-height: 1.5; }
+
+  /* ---- ABOUT ---- */
+  .about { background: var(--navy); }
+  .about-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 38px 34px;
+    margin-top: 32px;
+  }
+  .about-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(77,184,122,0.1);
+    border: 1px solid rgba(77,184,122,0.25);
+    color: var(--green);
+    font-size: 0.74rem; font-weight: 700;
+    padding: 5px 13px; border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .about-card p {
+    color: var(--cream-muted); font-size: 0.94rem;
+    margin-bottom: 14px; line-height: 1.7;
+  }
+  .about-card p:last-child { margin-bottom: 0; }
+  .about-card strong { color: var(--cream); }
+
+  /* ---- LEAD MAGNET ---- */
+  .leadmag {
+    background: var(--deep-navy);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .magnet-box {
+    background: var(--navy);
+    border: 1px solid rgba(232,184,75,0.25);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px;
+    position: relative; overflow: hidden;
+  }
+  .magnet-box::after {
+    content: '';
+    position: absolute; bottom: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(ellipse, rgba(232,184,75,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .magnet-box .section-label { margin-bottom: 10px; }
+  .magnet-box .section-title { font-size: clamp(1.2rem, 3.5vw, 1.6rem); margin-bottom: 12px; }
+  .magnet-box > p { color: var(--cream-muted); font-size: 0.92rem; margin-bottom: 30px; }
+  .magnet-form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; }
+  .magnet-form input {
+    width: 100%; padding: 13px 18px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(245,240,232,0.1);
+    background: var(--navy-mid);
+    color: var(--cream); font-family: var(--font); font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .magnet-form input::placeholder { color: rgba(245,240,232,0.3); }
+  .magnet-form input:focus { border-color: rgba(232,184,75,0.45); }
+  .btn-submit {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--gold); color: var(--deep-navy);
+    font-weight: 700; font-size: 0.9rem;
+    padding: 13px 22px; border-radius: var(--radius);
+    border: none; cursor: pointer; font-family: var(--font);
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--gold-light); }
+  .form-note { font-size: 0.73rem; color: rgba(245,240,232,0.3); margin-top: 6px; }
+
+  /* ---- CONTENT HIGHLIGHTS ---- */
+  .highlights { background: var(--navy); }
+  .content-grid { display: grid; gap: 14px; margin-top: 38px; }
+  .content-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .content-card:hover { border-color: rgba(232,184,75,0.35); transform: translateY(-2px); }
+  .card-tag {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 9px;
+  }
+  .content-card h3 {
+    font-size: 0.9rem; font-weight: 700; line-height: 1.35;
+    margin-bottom: 7px; color: var(--cream);
+  }
+  .content-card p { font-size: 0.8rem; color: var(--cream-muted); line-height: 1.5; }
+  .card-arrow {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.77rem; font-weight: 600; color: var(--gold);
+    margin-top: 13px; opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .content-card:hover .card-arrow { opacity: 1; }
+
+  /* Tags dengan warna khusus */
+  .tag-red { color: var(--red) !important; }
+  .tag-green { color: var(--green) !important; }
+
+  /* ---- FOOTER CTA ---- */
+  .footer-cta {
+    background: var(--deep-navy);
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-cta .section-title { margin-bottom: 12px; }
+  .footer-cta > .container > p { color: var(--cream-muted); font-size: 0.94rem; margin-bottom: 34px; }
+  .btn-ig {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold); color: var(--deep-navy);
+    font-weight: 700; font-size: 0.95rem;
+    padding: 15px 30px; border-radius: 999px;
+    box-shadow: 0 0 24px rgba(232,184,75,0.25);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-ig:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ig svg { width: 18px; height: 18px; }
+  .footer-bottom {
+    margin-top: 52px; padding-top: 24px;
+    border-top: 1px solid rgba(245,240,232,0.07);
+    font-size: 0.73rem; color: rgba(245,240,232,0.25);
+    text-align: center;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media(min-width: 540px) {
+    .content-grid { grid-template-columns: 1fr 1fr; }
+    .problem-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">sekilas<span>.rumah</span></div>
+    <a href="https://ig.me/m/sekilas.rumah" target="_blank" class="nav-cta">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      DM Sekarang
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Edukasi Properti Indonesia</div>
+    <h1>Beli Rumah Bukan Soal Hoki,<br/>Tapi <em>Pengetahuan</em></h1>
+    <p>Kami berbagi informasi properti yang mudah dipahami — dari KPR, sertifikat, hingga cara membaca kontrak — supaya kamu tidak salah langkah di keputusan terbesar hidupmu.</p>
+    <a href="https://ig.me/m/sekilas.rumah" target="_blank" class="btn-gold">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      DM Kami di Instagram
+    </a>
+    <div class="hero-note">Gratis · Tanpa spam · Langsung dibalas</div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label">Kenapa Ini Penting</div>
+    <h2 class="section-title">Banyak orang gagal beli properti bukan karena tidak mampu, tapi karena tidak tahu.</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📄</div>
+        <div>
+          <h3>Bingung soal dokumen</h3>
+          <p>SHM, HGB, AJB, PPJB — terlalu banyak istilah yang terdengar asing dan mengintimidasi.</p>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🏦</div>
+        <div>
+          <h3>Takut salah pilih KPR</h3>
+          <p>Bunga fixed vs floating, tenor, uang muka — satu keputusan salah bisa rugi puluhan juta.</p>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔍</div>
+        <div>
+          <h3>Sulit menilai developer</h3>
+          <p>Mana developer yang bisa dipercaya? Red flag apa yang tersembunyi di balik brosur cantik?</p>
+        </div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💡</div>
+        <div>
+          <h3>Tidak ada panduan netral</h3>
+          <p>Konten properti yang ada terlalu teknis atau justru terlalu promosi — tidak ada yang benar-benar edukasi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="container">
+    <div class="section-label">Tentang Kami</div>
+    <h2 class="section-title">Bukan agen. Bukan konsultan. Teman belajar properti.</h2>
+    <div class="about-card">
+      <div class="about-tag">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        Edukasi Independen
+      </div>
+      <p><strong>@sekilas.rumah</strong> adalah akun edukasi properti yang dibuat untuk menjawab pertanyaan yang sering terlewat — pertanyaan yang biasanya kamu takut tanyakan ke agen karena khawatir dianggap tidak serius.</p>
+      <p>Kami bukan ahli properti. Kami adalah orang yang belajar, mendokumentasikan, dan berbagi — dengan komitmen untuk selalu jujur tentang apa yang kami tahu dan apa yang belum kami kuasai.</p>
+      <p>Karena informasi yang tepat di awal bisa menghindarkan kamu dari keputusan yang menyesal bertahun-tahun kemudian.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD MAGNET -->
+<section class="leadmag">
+  <div class="container">
+    <div class="magnet-box">
+      <div class="section-label">Gratis untuk Kamu</div>
+      <h2 class="section-title">Checklist Beli Rumah Pertama<br/>— 27 Hal yang Wajib Kamu Cek</h2>
+      <p>Dokumen apa yang harus disiapkan, pertanyaan apa yang harus diajukan ke developer, dan jebakan apa yang paling sering dialami pembeli rumah pertama.</p>
+      <div class="magnet-form">
+        <input type="text" id="inp-name" placeholder="Nama kamu"/>
+        <input type="tel" id="inp-phone" placeholder="Nomor WhatsApp (08xx...)"/>
+        <button class="btn-submit" onclick="handleSubmit()">
+          Kirim Checklist ke WhatsApp Saya →
+        </button>
+        <p class="form-note">Datamu aman. Tidak digunakan untuk keperluan lain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT HIGHLIGHTS -->
+<!-- CATATAN: Ganti konten card di bawah dengan judul carousel asli setelah dikirim -->
+<section class="highlights">
+  <div class="container">
+    <div class="section-label">Dari Konten Kami</div>
+    <h2 class="section-title">Mulai dari mana saja — semua topik tersedia.</h2>
+    <div class="content-grid">
+
+      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
+        <div class="card-tag">KPR</div>
+        <h3>Cicilan KPR Ideal: Berapa % dari Gaji yang Aman?</h3>
+        <p>Rumus yang digunakan bank, dan cara menghitungnya untuk kondisi keuangan kamu sendiri.</p>
+        <div class="card-arrow">Lihat di Instagram →</div>
+      </div>
+
+      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
+        <div class="card-tag">Dokumen</div>
+        <h3>SHM vs HGB: Apa Bedanya dan Mana yang Lebih Aman?</h3>
+        <p>Banyak yang salah pilih karena tidak tahu perbedaan mendasar dua sertifikat ini.</p>
+        <div class="card-arrow">Lihat di Instagram →</div>
+      </div>
+
+      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
+        <div class="card-tag tag-red">⚠ Red Flag</div>
+        <h3>5 Red Flag Developer yang Sering Diabaikan Pembeli Baru</h3>
+        <p>Tanda-tanda ini sering terlihat jelas di awal, tapi banyak orang abaikan karena tergiur harga.</p>
+        <div class="card-arrow">Lihat di Instagram →</div>
+      </div>
+
+      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
+        <div class="card-tag tag-green">✓ Strategi</div>
+        <h3>Cash vs KPR: Mana yang Lebih Menguntungkan Secara Matematis?</h3>
+        <p>Jawabannya tidak sesederhana "lunasi cepat itu lebih baik" — ada banyak variabel yang menentukan.</p>
+        <div class="card-arrow">Lihat di Instagram →</div>
+      </div>
+
+      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
+        <div class="card-tag">Over Kredit</div>
+        <h3>Beli Rumah Over Kredit: Peluang atau Jebakan?</h3>
+        <p>Cara kerjanya, risiko yang jarang dijelaskan, dan langkah aman jika ingin mencobanya.</p>
+        <div class="card-arrow">Lihat di Instagram →</div>
+      </div>
+
+      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
+        <div class="card-tag">Negosiasi</div>
+        <h3>Cara Negosiasi Harga Properti yang Tidak Memalukan</h3>
+        <p>Apa yang boleh ditawar, berapa batas wajar, dan kalimat apa yang efektif digunakan ke penjual.</p>
+        <div class="card-arrow">Lihat di Instagram →</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <div class="container">
+    <div class="section-label">Ikuti Perjalanan Kami</div>
+    <h2 class="section-title">Konten baru setiap minggu,<br/>langsung di Instagram.</h2>
+    <p>Bergabung dengan ribuan orang yang sedang belajar properti — tanpa tekanan, tanpa basa-basi.</p>
+    <a href="https://www.instagram.com/sekilas.rumah/" target="_blank" class="btn-ig">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Ikuti @sekilas.rumah
+    </a>
+    <div class="footer-bottom">
+      © 2025 @sekilas.rumah · Edukasi Properti Indonesia · Bukan konsultan, bukan agen.
+    </div>
+  </div>
+</section>
+
+<script>
+function handleSubmit() {
+  var name  = document.getElementById('inp-name').value.trim();
+  var phone = document.getElementById('inp-phone').value.trim();
+  if (!name || !phone) {
+    alert('Isi nama dan nomor WhatsApp kamu dulu ya!');
+    return;
+  }
+  // Ganti 62XXXXXXXXXX dengan nomor WA admin aktif
+  var msg = encodeURIComponent(
+    'Halo @sekilas.rumah!\n\nNama saya ' + name +
+    ', nomor WA saya ' + phone +
+    '.\n\nSaya ingin download Checklist Beli Rumah Pertama 🏠'
+  );
+  window.open('https://wa.me/62XXXXXXXXXX?text=' + msg, '_blank');
+}
+</script>
+</body>
+</html>
