@@ -1,471 +1,1486 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sekilas Rumah — Edukasi Properti Indonesia</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sekilas.rumah — Wawasan Property. Bahasa Manusia.</title>
+<meta name="description" content="Panduan properti dari sisi pembeli. Dokumen, jebakan, dan strategi yang tidak pernah diajarkan developer atau agen.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  /* =============================================
-     BRAND PALETTE — @sekilas.rumah
-     ============================================= */
-  :root {
-    --deep-navy:   #070D18;  /* Background utama */
-    --navy:        #0D1B2E;  /* Background slide */
-    --navy-mid:    #162840;  /* Surface / card */
-    --navy-light:  #1E3A58;  /* Hover / elevated */
-    --gold:        #E8B84B;  /* Aksen utama / CTA ⭐ */
-    --gold-light:  #F5D98A;  /* Highlight / glow */
-    --cream:       #F5F0E8;  /* Teks utama */
-    --red:         #E05252;  /* Red flag / warning */
-    --green:       #4DB87A;  /* Positif / aman */
-    --cream-muted: rgba(245,240,232,0.55);
-    --border:      rgba(232,184,75,0.15);
-    --radius:      12px;
-    --radius-lg:   20px;
-    --font:        'Plus Jakarta Sans', sans-serif;
-  }
+/* ════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════ */
+:root {
+  --bg:       #070D18;
+  --surface:  #0D1B2E;
+  --card:     #112030;
+  --elevated: #1A2F45;
+  --gold:     #E8B84B;
+  --gold2:    #F5D98A;
+  --goldim:   rgba(232,184,75,0.12);
+  --bgold:    rgba(232,184,75,0.22);
+  --cream:    #F5F0E8;
+  --soft:     rgba(245,240,232,0.62);
+  --dim:      rgba(245,240,232,0.28);
+  --faint:    rgba(245,240,232,0.08);
+  --border:   rgba(255,255,255,0.06);
+  --red:      #E05252;
+  --green:    #4DB87A;
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font);
-    background: var(--deep-navy);
-    color: var(--cream);
-    line-height: 1.65;
-  }
-  a { text-decoration: none; color: inherit; }
-  .container { max-width: 700px; margin: 0 auto; padding: 0 22px; }
-  section { padding: 72px 0; }
+/* ════════════════════════════════
+   RESET & BASE
+════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  /* ---- NAV ---- */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(7,13,24,0.88);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-    padding: 15px 0;
-  }
-  nav .container { display: flex; align-items: center; justify-content: space-between; }
-  .logo { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.3px; color: var(--cream); }
-  .logo span { color: var(--gold); }
-  .nav-cta {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: var(--gold); color: var(--deep-navy);
-    padding: 8px 18px; border-radius: 999px;
-    font-size: 0.82rem; font-weight: 700;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
-  .nav-cta svg { width: 14px; height: 14px; }
+/* ════════════════════════════════
+   TEXTURE OVERLAY (sitewide)
+════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 79px,
+      rgba(255,255,255,0.008) 79px, rgba(255,255,255,0.008) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px,
+      rgba(255,255,255,0.005) 79px, rgba(255,255,255,0.005) 80px);
+  pointer-events: none;
+  z-index: 0;
+}
 
-  /* ---- HERO ---- */
-  .hero {
-    background: var(--navy);
-    padding: 88px 0 80px;
-    text-align: center;
-    position: relative; overflow: hidden;
-  }
-  /* Subtle gold glow blob */
-  .hero::before {
-    content: '';
-    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
-    width: 500px; height: 350px;
-    background: radial-gradient(ellipse, rgba(232,184,75,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    display: inline-block;
-    background: rgba(232,184,75,0.12);
-    border: 1px solid rgba(232,184,75,0.3);
-    color: var(--gold);
-    font-size: 0.74rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 6px 16px; border-radius: 999px;
-    margin-bottom: 28px;
-  }
-  .hero h1 {
-    font-size: clamp(1.8rem, 5.5vw, 2.75rem);
-    font-weight: 700; line-height: 1.18;
-    letter-spacing: -0.6px;
-    margin-bottom: 18px;
-    color: var(--cream);
-  }
-  .hero h1 em { color: var(--gold); font-style: normal; }
-  .hero p {
-    font-size: 1rem; color: var(--cream-muted);
-    max-width: 490px; margin: 0 auto 40px;
-  }
-  .btn-gold {
-    display: inline-flex; align-items: center; gap: 9px;
-    background: var(--gold); color: var(--deep-navy);
-    font-weight: 700; font-size: 0.95rem;
-    padding: 15px 30px; border-radius: 999px;
-    box-shadow: 0 0 28px rgba(232,184,75,0.3);
-    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  }
-  .btn-gold:hover {
-    background: var(--gold-light);
-    transform: translateY(-2px);
-    box-shadow: 0 0 40px rgba(232,184,75,0.45);
-  }
-  .btn-gold svg { width: 18px; height: 18px; }
-  .hero-note { margin-top: 16px; font-size: 0.76rem; color: rgba(245,240,232,0.35); }
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: rgba(7,13,24,0.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+.nav-logo {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--bgold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.nav-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.2px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-link {
+  font-size: 13px;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.2px;
+}
+.nav-link:hover { color: var(--cream); }
+.nav-cta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 8px 18px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.nav-cta:hover { background: var(--gold2); }
+@media (max-width: 640px) {
+  nav { padding: 0 20px; }
+  .nav-right .nav-link { display: none; }
+}
 
-  /* ---- PROBLEM ---- */
-  .problem { background: var(--deep-navy); }
-  .section-label {
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-size: clamp(1.35rem, 4vw, 1.95rem);
-    font-weight: 700; letter-spacing: -0.4px;
-    line-height: 1.22; margin-bottom: 18px;
-    color: var(--cream);
-  }
-  .problem-grid { display: grid; gap: 14px; margin-top: 38px; }
-  .problem-card {
-    display: flex; gap: 16px; align-items: flex-start;
-    background: var(--navy-mid);
-    border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 20px;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .problem-card:hover { background: var(--navy-light); border-color: rgba(232,184,75,0.3); }
-  .problem-icon {
-    width: 38px; height: 38px; flex-shrink: 0;
-    background: rgba(232,184,75,0.1);
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.05rem;
-  }
-  .problem-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; color: var(--cream); }
-  .problem-card p { font-size: 0.82rem; color: var(--cream-muted); line-height: 1.5; }
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 120px 40px 80px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 40%, rgba(232,184,75,0.065) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 85% 60%, rgba(26,47,80,0.7) 0%, transparent 60%);
+  pointer-events: none;
+}
 
-  /* ---- ABOUT ---- */
-  .about { background: var(--navy); }
-  .about-card {
-    background: var(--navy-mid);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 38px 34px;
-    margin-top: 32px;
-  }
-  .about-tag {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(77,184,122,0.1);
-    border: 1px solid rgba(77,184,122,0.25);
-    color: var(--green);
-    font-size: 0.74rem; font-weight: 700;
-    padding: 5px 13px; border-radius: 999px;
-    margin-bottom: 20px;
-  }
-  .about-card p {
-    color: var(--cream-muted); font-size: 0.94rem;
-    margin-bottom: 14px; line-height: 1.7;
-  }
-  .about-card p:last-child { margin-bottom: 0; }
-  .about-card strong { color: var(--cream); }
+/* Big background wordmark */
+.hero-bg-text {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(120px, 18vw, 220px);
+  color: rgba(232,184,75,0.033);
+  line-height: 1;
+  letter-spacing: -6px;
+  right: -2%;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
 
-  /* ---- LEAD MAGNET ---- */
-  .leadmag {
-    background: var(--deep-navy);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .magnet-box {
-    background: var(--navy);
-    border: 1px solid rgba(232,184,75,0.25);
-    border-radius: var(--radius-lg);
-    padding: 40px 36px;
-    position: relative; overflow: hidden;
-  }
-  .magnet-box::after {
-    content: '';
-    position: absolute; bottom: -60px; right: -60px;
-    width: 220px; height: 220px;
-    background: radial-gradient(ellipse, rgba(232,184,75,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .magnet-box .section-label { margin-bottom: 10px; }
-  .magnet-box .section-title { font-size: clamp(1.2rem, 3.5vw, 1.6rem); margin-bottom: 12px; }
-  .magnet-box > p { color: var(--cream-muted); font-size: 0.92rem; margin-bottom: 30px; }
-  .magnet-form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; }
-  .magnet-form input {
-    width: 100%; padding: 13px 18px;
-    border-radius: var(--radius);
-    border: 1px solid rgba(245,240,232,0.1);
-    background: var(--navy-mid);
-    color: var(--cream); font-family: var(--font); font-size: 0.9rem;
-    outline: none; transition: border-color 0.2s;
-  }
-  .magnet-form input::placeholder { color: rgba(245,240,232,0.3); }
-  .magnet-form input:focus { border-color: rgba(232,184,75,0.45); }
-  .btn-submit {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    background: var(--gold); color: var(--deep-navy);
-    font-weight: 700; font-size: 0.9rem;
-    padding: 13px 22px; border-radius: var(--radius);
-    border: none; cursor: pointer; font-family: var(--font);
-    transition: background 0.2s;
-  }
-  .btn-submit:hover { background: var(--gold-light); }
-  .form-note { font-size: 0.73rem; color: rgba(245,240,232,0.3); margin-top: 6px; }
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+}
 
-  /* ---- CONTENT HIGHLIGHTS ---- */
-  .highlights { background: var(--navy); }
-  .content-grid { display: grid; gap: 14px; margin-top: 38px; }
-  .content-card {
-    background: var(--navy-mid);
-    border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 22px;
-    transition: border-color 0.2s, transform 0.2s;
-    cursor: pointer;
-  }
-  .content-card:hover { border-color: rgba(232,184,75,0.35); transform: translateY(-2px); }
-  .card-tag {
-    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 9px;
-  }
-  .content-card h3 {
-    font-size: 0.9rem; font-weight: 700; line-height: 1.35;
-    margin-bottom: 7px; color: var(--cream);
-  }
-  .content-card p { font-size: 0.8rem; color: var(--cream-muted); line-height: 1.5; }
-  .card-arrow {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 0.77rem; font-weight: 600; color: var(--gold);
-    margin-top: 13px; opacity: 0.8;
-    transition: opacity 0.2s;
-  }
-  .content-card:hover .card-arrow { opacity: 1; }
+.hero-content {}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.1s both;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 6.5vw, 80px);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 0.93;
+  letter-spacing: -2.5px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.2s both;
+}
+.hero-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+.hero-sub {
+  font-size: 17px;
+  color: var(--soft);
+  line-height: 1.7;
+  max-width: 480px;
+  font-weight: 300;
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.3s both;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.4s both;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+.btn-primary:hover {
+  background: var(--gold2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(232,184,75,0.22);
+}
+.btn-ghost {
+  font-size: 13px;
+  color: var(--dim);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--cream); }
 
-  /* Tags dengan warna khusus */
-  .tag-red { color: var(--red) !important; }
-  .tag-green { color: var(--green) !important; }
+/* Hero stat strip */
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.5s both;
+}
+.hs-item {}
+.hs-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hs-lbl {
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.3px;
+}
 
-  /* ---- FOOTER CTA ---- */
-  .footer-cta {
-    background: var(--deep-navy);
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-  .footer-cta .section-title { margin-bottom: 12px; }
-  .footer-cta > .container > p { color: var(--cream-muted); font-size: 0.94rem; margin-bottom: 34px; }
-  .btn-ig {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--gold); color: var(--deep-navy);
-    font-weight: 700; font-size: 0.95rem;
-    padding: 15px 30px; border-radius: 999px;
-    box-shadow: 0 0 24px rgba(232,184,75,0.25);
-    transition: background 0.2s, transform 0.2s;
-  }
-  .btn-ig:hover { background: var(--gold-light); transform: translateY(-2px); }
-  .btn-ig svg { width: 18px; height: 18px; }
-  .footer-bottom {
-    margin-top: 52px; padding-top: 24px;
-    border-top: 1px solid rgba(245,240,232,0.07);
-    font-size: 0.73rem; color: rgba(245,240,232,0.25);
-    text-align: center;
-  }
+/* Hero visual — featured e-book stack */
+.hero-visual {
+  position: relative;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.35s both;
+}
+@media (max-width: 900px) { .hero-visual { display: none; } }
 
-  /* ---- RESPONSIVE ---- */
-  @media(min-width: 540px) {
-    .content-grid { grid-template-columns: 1fr 1fr; }
-    .problem-grid { grid-template-columns: 1fr 1fr; }
-  }
+.book-stack {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+.book-card-hero {
+  position: absolute;
+  width: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(232,184,75,0.2);
+  box-shadow: 0 32px 60px rgba(0,0,0,0.6);
+}
+.book-card-hero:first-child {
+  left: 20px;
+  top: 40px;
+  transform: rotate(-4deg);
+  z-index: 1;
+}
+.book-card-hero:last-child {
+  left: 100px;
+  top: 0;
+  z-index: 2;
+}
+.bch-cover {
+  height: 300px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.bch-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 20%, rgba(232,184,75,0.06) 0%, transparent 60%);
+}
+.bch-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+.bch-title em { color: var(--gold); font-style: italic; }
+.bch-footer {
+  padding: 12px 16px;
+  background: rgba(7,13,24,0.8);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bch-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  color: var(--gold);
+  font-weight: 700;
+}
+.bch-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+.bch-badge.free {
+  background: rgba(77,184,122,0.15);
+  color: var(--green);
+  border: 1px solid rgba(77,184,122,0.3);
+}
+.bch-badge.paid {
+  background: var(--goldim);
+  color: var(--gold);
+  border: 1px solid var(--bgold);
+}
+
+/* ════════════════════════════════
+   SECTION BASE
+════════════════════════════════ */
+.section {
+  position: relative;
+  z-index: 1;
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+@media (max-width: 640px) { .section-inner { padding: 0 20px; } }
+
+/* ════════════════════════════════
+   MISSION STRIP
+════════════════════════════════ */
+.mission-strip {
+  padding: 80px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.mission-strip::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: radial-gradient(ellipse 40% 80% at 80% 50%, rgba(232,184,75,0.04) 0%, transparent 60%);
+}
+.mission-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 700px) {
+  .mission-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+.mission-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mission-label::before { content: ''; width: 20px; height: 1.5px; background: var(--gold); }
+.mission-statement {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+.mission-statement em { color: var(--gold); font-style: italic; }
+.mission-desc {
+  font-size: 15px;
+  color: var(--soft);
+  line-height: 1.8;
+  font-weight: 300;
+}
+.mission-desc strong { color: var(--cream); font-weight: 500; }
+.mission-divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(to right, var(--gold), rgba(232,184,75,0.2));
+  margin: 20px 0;
+}
+
+/* ════════════════════════════════
+   LIBRARY / CATALOG
+════════════════════════════════ */
+.library {
+  padding: 96px 0;
+}
+.library-header {
+  margin-bottom: 48px;
+}
+.library-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: var(--cream);
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin-bottom: 12px;
+}
+.library-title em { color: var(--gold); font-style: italic; }
+.library-sub {
+  font-size: 15px;
+  color: var(--soft);
+  max-width: 480px;
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+/* Filter tabs */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 7px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--dim);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.18s;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+.filter-btn:hover { border-color: var(--bgold); color: var(--gold); }
+.filter-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+/* Catalog grid */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+@media (max-width: 500px) { .catalog-grid { grid-template-columns: 1fr; } }
+
+/* E-book card */
+.ebook-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.ebook-card:hover {
+  border-color: var(--bgold);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+.ebook-card[data-type="free"]:hover { border-color: rgba(77,184,122,0.35); }
+
+/* Card cover */
+.ec-cover {
+  height: 220px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+}
+.ec-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 25%, rgba(232,184,75,0.07) 0%, transparent 55%);
+}
+
+/* Cover BG number */
+.ec-bg-num {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  color: rgba(232,184,75,0.05);
+  font-size: 180px;
+  line-height: 1;
+  right: -10px;
+  bottom: -20px;
+  letter-spacing: -8px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ec-edition-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  z-index: 2;
+}
+.ec-edition-badge.ed1 {
+  background: rgba(77,184,122,0.12);
+  color: var(--green);
+  border: 1px solid rgba(77,184,122,0.3);
+}
+.ec-edition-badge.ed2 {
+  background: var(--goldim);
+  color: var(--gold);
+  border: 1px solid var(--bgold);
+}
+
+.ec-cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 900;
+  color: var(--cream);
+  letter-spacing: -1px;
+  line-height: 1.05;
+  text-align: left;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.ec-cover-title em { color: var(--gold); font-style: italic; }
+
+.ec-gold-rule {
+  width: 32px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+  align-self: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Card body */
+.ec-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ec-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ec-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.ec-type.free { color: var(--green); }
+.ec-type.paid { color: var(--gold); }
+.ec-series {
+  font-size: 11px;
+  color: var(--dim);
+  font-family: 'Space Mono', monospace;
+}
+.ec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -0.4px;
+  line-height: 1.3;
+}
+.ec-desc {
+  font-size: 13.5px;
+  color: var(--soft);
+  line-height: 1.7;
+  flex: 1;
+  font-weight: 300;
+}
+.ec-stats {
+  display: flex;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.ec-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ec-stat-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.ec-stat-lbl {
+  font-size: 10px;
+  color: var(--dim);
+}
+
+/* Card CTA */
+.ec-cta {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ec-price {
+  font-size: 13px;
+  font-weight: 600;
+}
+.ec-price.free { color: var(--green); }
+.ec-price.paid { color: var(--gold); }
+.ec-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.ec-btn.free {
+  background: rgba(77,184,122,0.12);
+  color: var(--green);
+  border: 1px solid rgba(77,184,122,0.3);
+}
+.ec-btn.free:hover {
+  background: rgba(77,184,122,0.2);
+  transform: translateY(-1px);
+}
+.ec-btn.paid {
+  background: var(--gold);
+  color: var(--bg);
+}
+.ec-btn.paid:hover {
+  background: var(--gold2);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(232,184,75,0.2);
+}
+
+/* Coming soon card */
+.ebook-card.coming-soon {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.coming-soon-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(7,13,24,0.9);
+  border: 1px solid var(--bgold);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* ════════════════════════════════
+   HOW IT WORKS
+════════════════════════════════ */
+.how {
+  padding: 80px 0 96px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.how-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.how-label::before { content: ''; width: 20px; height: 1.5px; background: var(--gold); }
+.how-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 48px;
+}
+.how-title em { color: var(--gold); font-style: italic; }
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 700px) { .how-steps { grid-template-columns: 1fr; } }
+.how-step {
+  padding: 28px;
+  background: var(--card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.how-step::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.how-step:hover::before { opacity: 1; }
+.how-step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+.how-step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.how-step-desc {
+  font-size: 13.5px;
+  color: var(--soft);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ════════════════════════════════
+   INSTAGRAM STRIP
+════════════════════════════════ */
+.ig-strip {
+  padding: 72px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.ig-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(232,184,75,0.04) 0%, transparent 70%);
+}
+.ig-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 14px;
+}
+.ig-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 900;
+  color: var(--cream);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+.ig-headline em { color: var(--gold); font-style: italic; }
+.ig-sub {
+  font-size: 15px;
+  color: var(--soft);
+  font-weight: 300;
+  max-width: 420px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+.ig-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 13px 30px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.ig-btn:hover {
+  background: var(--gold2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(232,184,75,0.22);
+}
+.ig-handle {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 48px 0 40px;
+  position: relative;
+  z-index: 1;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+@media (max-width: 700px) {
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+.footer-brand-col {}
+.footer-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.footer-brand-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.footer-desc {
+  font-size: 13px;
+  color: var(--dim);
+  line-height: 1.7;
+  max-width: 240px;
+}
+.footer-col-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 16px;
+}
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-link {
+  font-size: 13px;
+  color: var(--soft);
+  text-decoration: none;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-link:hover { color: var(--gold); }
+.footer-link-arrow {
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateX(-4px);
+}
+.footer-link:hover .footer-link-arrow { opacity: 1; transform: translateX(0); }
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 40px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+@media (max-width: 640px) { .footer-bottom { padding: 20px 20px 0; } }
+.footer-copy {
+  font-size: 12px;
+  color: var(--dim);
+}
+.footer-disclaimer {
+  font-size: 11px;
+  color: rgba(245,240,232,0.18);
+  max-width: 400px;
+  text-align: right;
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .footer-disclaimer { text-align: left; }
+}
+
+/* ════════════════════════════════
+   ANIMATIONS
+════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+
+/* Hidden cards */
+.ebook-card.hidden { display: none; }
+
+/* ════════════════════════════════
+   SCROLL TO TOP
+════════════════════════════════ */
+#scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--bgold);
+  color: var(--gold);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s;
+}
+#scroll-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#scroll-top:hover {
+  background: var(--goldim);
+  transform: translateY(-2px);
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="container">
-    <div class="logo">sekilas<span>.rumah</span></div>
-    <a href="https://ig.me/m/sekilas.rumah" target="_blank" class="nav-cta">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      DM Sekarang
-    </a>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo">
+      <svg width="22" height="22" viewBox="0 0 60 60" fill="none">
+        <polyline points="6,30 30,8 54,30" fill="none" stroke="#E8B84B" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <rect x="12" y="30" width="36" height="22" rx="2" fill="none" stroke="rgba(245,240,232,0.6)" stroke-width="1.6"/>
+        <rect x="22" y="36" width="16" height="16" rx="1.5" fill="none" stroke="rgba(245,240,232,0.35)" stroke-width="1.3"/>
+        <circle cx="30" cy="8" r="3" fill="#E8B84B"/>
+      </svg>
+    </div>
+    <span class="nav-name">sekilas.rumah</span>
+  </a>
+  <div class="nav-right">
+    <a href="#library" class="nav-link">Perpustakaan</a>
+    <a href="#mission" class="nav-link">Tentang</a>
+    <a href="https://instagram.com/sekilas.rumah" target="_blank" class="nav-cta">Follow Instagram →</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-eyebrow">Edukasi Properti Indonesia</div>
-    <h1>Beli Rumah Bukan Soal Hoki,<br/>Tapi <em>Pengetahuan</em></h1>
-    <p>Kami berbagi informasi properti yang mudah dipahami — dari KPR, sertifikat, hingga cara membaca kontrak — supaya kamu tidak salah langkah di keputusan terbesar hidupmu.</p>
-    <a href="https://ig.me/m/sekilas.rumah" target="_blank" class="btn-gold">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      DM Kami di Instagram
-    </a>
-    <div class="hero-note">Gratis · Tanpa spam · Langsung dibalas</div>
-  </div>
-</section>
-
-<!-- PROBLEM -->
-<section class="problem">
-  <div class="container">
-    <div class="section-label">Kenapa Ini Penting</div>
-    <h2 class="section-title">Banyak orang gagal beli properti bukan karena tidak mampu, tapi karena tidak tahu.</h2>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="problem-icon">📄</div>
-        <div>
-          <h3>Bingung soal dokumen</h3>
-          <p>SHM, HGB, AJB, PPJB — terlalu banyak istilah yang terdengar asing dan mengintimidasi.</p>
-        </div>
+  <div class="hero-bg-text" aria-hidden="true">sekilas</div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Wawasan Property · Bahasa Manusia</div>
+      <h1 class="hero-title">
+        Properti yang<br>kamu beli<br><em>berpihak ke siapa?</em>
+      </h1>
+      <p class="hero-sub">
+        Informasi properti selama ini ditulis untuk memudahkan penjual. Di sini kita balik itu — dokumen, jebakan, dan strategi yang wajib dipahami pembeli sebelum tanda tangan apapun.
+      </p>
+      <div class="hero-actions">
+        <a href="#library" class="btn-primary">🎁 Ambil Panduan Gratis</a>
+        <a href="#library" class="btn-ghost">Lihat semua edisi →</a>
       </div>
-      <div class="problem-card">
-        <div class="problem-icon">🏦</div>
-        <div>
-          <h3>Takut salah pilih KPR</h3>
-          <p>Bunga fixed vs floating, tenor, uang muka — satu keputusan salah bisa rugi puluhan juta.</p>
+      <div class="hero-stats">
+        <div class="hs-item">
+          <div class="hs-num">2</div>
+          <div class="hs-lbl">Edisi tersedia</div>
         </div>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">🔍</div>
-        <div>
-          <h3>Sulit menilai developer</h3>
-          <p>Mana developer yang bisa dipercaya? Red flag apa yang tersembunyi di balik brosur cantik?</p>
+        <div class="hs-item">
+          <div class="hs-num">37</div>
+          <div class="hs-lbl">Item & pertanyaan kritis</div>
         </div>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">💡</div>
-        <div>
-          <h3>Tidak ada panduan netral</h3>
-          <p>Konten properti yang ada terlalu teknis atau justru terlalu promosi — tidak ada yang benar-benar edukasi.</p>
+        <div class="hs-item">
+          <div class="hs-num">100%</div>
+          <div class="hs-lbl">Dari sisi pembeli</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ABOUT -->
-<section class="about">
-  <div class="container">
-    <div class="section-label">Tentang Kami</div>
-    <h2 class="section-title">Bukan agen. Bukan konsultan. Teman belajar properti.</h2>
-    <div class="about-card">
-      <div class="about-tag">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        Edukasi Independen
+    <!-- Visual Stack -->
+    <div class="hero-visual">
+      <div class="book-stack">
+        <!-- Card back (Edisi 1) -->
+        <div class="book-card-hero">
+          <div class="bch-cover" style="background: linear-gradient(135deg, #0D1B2E, #122035);">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%, rgba(232,184,75,0.07) 0%, transparent 55%);"></div>
+            <svg style="position:absolute;top:20px;right:20px;opacity:0.2;" width="60" height="50" viewBox="0 0 60 50" fill="none">
+              <polyline points="5,25 30,5 55,25" stroke="#E8B84B" stroke-width="2" fill="none" stroke-linejoin="round"/>
+              <rect x="10" y="25" width="40" height="22" rx="2" fill="none" stroke="#E8B84B" stroke-width="1.5"/>
+              <circle cx="30" cy="5" r="3" fill="#E8B84B"/>
+            </svg>
+            <div class="bch-title" style="position:relative;z-index:1;">
+              Jangan<br><em>Tanda<br>Tangan</em><br>Dulu.
+            </div>
+          </div>
+          <div class="bch-footer">
+            <span class="bch-brand">sekilas.rumah</span>
+            <span class="bch-badge free">GRATIS</span>
+          </div>
+        </div>
+        <!-- Card front (Edisi 2) -->
+        <div class="book-card-hero">
+          <div class="bch-cover" style="background: linear-gradient(160deg, #0D1B2E, #0A1520);">
+            <div style="position:absolute;right:-5px;bottom:-15px;font-family:'Playfair Display',serif;font-weight:900;font-size:130px;color:rgba(232,184,75,0.05);line-height:1;letter-spacing:-5px;user-select:none;">27</div>
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 15%, rgba(232,184,75,0.06) 0%, transparent 55%);"></div>
+            <!-- Checklist lines -->
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:14px;height:14px;border-radius:3px;background:rgba(77,184,122,0.2);border:1px solid rgba(77,184,122,0.4);display:flex;align-items:center;justify-content:center;font-size:9px;color:#4DB87A;font-weight:700;">✓</div>
+                <div style="height:4px;width:120px;background:rgba(245,240,232,0.08);border-radius:2px;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:14px;height:14px;border-radius:3px;background:rgba(77,184,122,0.2);border:1px solid rgba(77,184,122,0.4);display:flex;align-items:center;justify-content:center;font-size:9px;color:#4DB87A;font-weight:700;">✓</div>
+                <div style="height:4px;width:100px;background:rgba(245,240,232,0.08);border-radius:2px;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:14px;height:14px;border-radius:3px;background:rgba(232,184,75,0.15);border:1px solid rgba(232,184,75,0.3);"></div>
+                <div style="height:4px;width:90px;background:rgba(245,240,232,0.12);border-radius:2px;"></div>
+              </div>
+            </div>
+            <div class="bch-title" style="position:relative;z-index:1;">
+              Checklist Beli Rumah<br><em>Pertama.</em>
+            </div>
+          </div>
+          <div class="bch-footer">
+            <span class="bch-brand">sekilas.rumah</span>
+            <span class="bch-badge paid">Bayar Seikhlasnya</span>
+          </div>
+        </div>
       </div>
-      <p><strong>@sekilas.rumah</strong> adalah akun edukasi properti yang dibuat untuk menjawab pertanyaan yang sering terlewat — pertanyaan yang biasanya kamu takut tanyakan ke agen karena khawatir dianggap tidak serius.</p>
-      <p>Kami bukan ahli properti. Kami adalah orang yang belajar, mendokumentasikan, dan berbagi — dengan komitmen untuk selalu jujur tentang apa yang kami tahu dan apa yang belum kami kuasai.</p>
-      <p>Karena informasi yang tepat di awal bisa menghindarkan kamu dari keputusan yang menyesal bertahun-tahun kemudian.</p>
     </div>
   </div>
 </section>
 
-<!-- LEAD MAGNET -->
-<section class="leadmag">
-  <div class="container">
-    <div class="magnet-box">
-      <div class="section-label">Gratis untuk Kamu</div>
-      <h2 class="section-title">Checklist Beli Rumah Pertama<br/>— 27 Hal yang Wajib Kamu Cek</h2>
-      <p>Dokumen apa yang harus disiapkan, pertanyaan apa yang harus diajukan ke developer, dan jebakan apa yang paling sering dialami pembeli rumah pertama.</p>
-      <div class="magnet-form">
-        <input type="text" id="inp-name" placeholder="Nama kamu"/>
-        <input type="tel" id="inp-phone" placeholder="Nomor WhatsApp (08xx...)"/>
-        <button class="btn-submit" onclick="handleSubmit()">
-          Kirim Checklist ke WhatsApp Saya →
-        </button>
-        <p class="form-note">Datamu aman. Tidak digunakan untuk keperluan lain.</p>
+<!-- ══ MISSION ══ -->
+<section class="mission-strip section" id="mission">
+  <div class="mission-inner">
+    <div class="reveal">
+      <div class="mission-label">Misi</div>
+      <h2 class="mission-statement">
+        Wawasan Property.<br><em>Bahasa Manusia.</em>
+      </h2>
+      <div class="mission-divider"></div>
+      <p class="mission-desc">
+        Setiap panduan, setiap checklist, setiap konten yang kita buat melewati satu filter: <strong>apakah ini membantu pembeli membuat keputusan yang lebih baik?</strong>
+        <br><br>
+        Kami bukan agen. Kami bukan developer. Kami ada di sisi kamu.
+      </p>
+    </div>
+    <div class="reveal reveal-d2">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="padding:20px 22px;background:var(--card);border-radius:12px;border:1px solid var(--border);border-left:3px solid var(--gold);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Tegas</div>
+          <div style="font-size:13.5px;color:var(--soft);line-height:1.6;">Informasi disampaikan langsung tanpa basa-basi dan sugar-coating.</div>
+        </div>
+        <div style="padding:20px 22px;background:var(--card);border-radius:12px;border:1px solid var(--border);border-left:3px solid var(--gold);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Premium</div>
+          <div style="font-size:13.5px;color:var(--soft);line-height:1.6;">Desain dan kualitas konten yang tidak pernah terasa generik atau murahan.</div>
+        </div>
+        <div style="padding:20px 22px;background:var(--card);border-radius:12px;border:1px solid var(--border);border-left:3px solid var(--gold);">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Hangat</div>
+          <div style="font-size:13.5px;color:var(--soft);line-height:1.6;">Audiens diajak bicara — bukan diceramahi. Bahasa teman, bukan bahasa seminar.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTENT HIGHLIGHTS -->
-<!-- CATATAN: Ganti konten card di bawah dengan judul carousel asli setelah dikirim -->
-<section class="highlights">
-  <div class="container">
-    <div class="section-label">Dari Konten Kami</div>
-    <h2 class="section-title">Mulai dari mana saja — semua topik tersedia.</h2>
-    <div class="content-grid">
+<!-- ══ LIBRARY ══ -->
+<section class="library section" id="library">
+  <div class="section-inner">
+    <div class="library-header reveal">
+      <div style="display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">
+        <span style="width:20px;height:1.5px;background:var(--gold);display:block;"></span>
+        Perpustakaan
+      </div>
+      <h2 class="library-title">Semua Edisi<br><em>sekilas.rumah</em></h2>
+      <p class="library-sub">Panduan yang terus bertambah — dari pertanyaan kritis sebelum beli hingga strategi negosiasi yang tidak diajarkan di manapun.</p>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCatalog('all', this)">Semua</button>
+        <button class="filter-btn" onclick="filterCatalog('free', this)">Gratis</button>
+        <button class="filter-btn" onclick="filterCatalog('paid', this)">Berbayar</button>
+      </div>
+    </div>
 
-      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
-        <div class="card-tag">KPR</div>
-        <h3>Cicilan KPR Ideal: Berapa % dari Gaji yang Aman?</h3>
-        <p>Rumus yang digunakan bank, dan cara menghitungnya untuk kondisi keuangan kamu sendiri.</p>
-        <div class="card-arrow">Lihat di Instagram →</div>
+    <div class="catalog-grid" id="catalog-grid">
+
+      <!-- ─── EDISI 1 ─── -->
+      <div class="ebook-card reveal" data-type="free">
+        <div class="ec-cover">
+          <div class="ec-edition-badge ed1">Edisi Pertama</div>
+          <div class="ec-bg-num" aria-hidden="true">10</div>
+          <div class="ec-cover-title">
+            Jangan<br><em>Tanda</em><br><em>Tangan</em><br>Dulu.
+          </div>
+          <div class="ec-gold-rule"></div>
+        </div>
+        <div class="ec-body">
+          <div class="ec-meta">
+            <span class="ec-type free">✓ Gratis</span>
+            <span class="ec-series">Seri Panduan / E-01</span>
+          </div>
+          <div class="ec-title">Jangan Tanda Tangan Dulu!</div>
+          <div class="ec-desc">10 pertanyaan kritis yang wajib kamu tanyakan sebelum beli properti apapun — lengkap dengan jawaban red flag yang harus membuat kamu waspada.</div>
+          <div class="ec-stats">
+            <div class="ec-stat">
+              <span class="ec-stat-num">10</span>
+              <span class="ec-stat-lbl">Pertanyaan kritis</span>
+            </div>
+            <div class="ec-stat">
+              <span class="ec-stat-num">16</span>
+              <span class="ec-stat-lbl">Istilah properti</span>
+            </div>
+            <div class="ec-stat">
+              <span class="ec-stat-num">1</span>
+              <span class="ec-stat-lbl">Master checklist</span>
+            </div>
+          </div>
+        </div>
+        <div class="ec-cta">
+          <span class="ec-price free">Gratis · Tanpa syarat</span>
+          <a href="https://mayar.id/sekilasrumah/ebook1" target="_blank" class="ec-btn free">🎁 Ambil Gratis →</a>
+        </div>
       </div>
 
-      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
-        <div class="card-tag">Dokumen</div>
-        <h3>SHM vs HGB: Apa Bedanya dan Mana yang Lebih Aman?</h3>
-        <p>Banyak yang salah pilih karena tidak tahu perbedaan mendasar dua sertifikat ini.</p>
-        <div class="card-arrow">Lihat di Instagram →</div>
+      <!-- ─── EDISI 2 ─── -->
+      <div class="ebook-card reveal reveal-d1" data-type="paid">
+        <div class="ec-cover">
+          <div class="ec-edition-badge ed2">Edisi Kedua</div>
+          <div class="ec-bg-num" aria-hidden="true">27</div>
+          <!-- Checklist preview visual -->
+          <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:7px;margin-bottom:14px;width:100%;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:14px;height:14px;border-radius:3px;background:rgba(77,184,122,0.2);border:1px solid rgba(77,184,122,0.4);display:flex;align-items:center;justify-content:center;font-size:9px;color:#4DB87A;font-weight:700;flex-shrink:0;">✓</div>
+              <div style="height:3px;width:130px;background:rgba(245,240,232,0.08);border-radius:2px;"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:14px;height:14px;border-radius:3px;background:rgba(77,184,122,0.2);border:1px solid rgba(77,184,122,0.4);display:flex;align-items:center;justify-content:center;font-size:9px;color:#4DB87A;font-weight:700;flex-shrink:0;">✓</div>
+              <div style="height:3px;width:110px;background:rgba(245,240,232,0.08);border-radius:2px;"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:14px;height:14px;border-radius:3px;background:rgba(232,184,75,0.15);border:1px solid rgba(232,184,75,0.3);flex-shrink:0;"></div>
+              <div style="height:3px;width:90px;background:rgba(245,240,232,0.12);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="ec-cover-title">
+            Checklist Beli Rumah <em>Pertama.</em>
+          </div>
+          <div class="ec-gold-rule"></div>
+        </div>
+        <div class="ec-body">
+          <div class="ec-meta">
+            <span class="ec-type paid">✦ Bayar Seikhlasnya</span>
+            <span class="ec-series">Seri Panduan / E-02</span>
+          </div>
+          <div class="ec-title">Checklist Beli Rumah Pertama</div>
+          <div class="ec-desc">27 hal yang wajib dicek dari persiapan finansial hingga serah terima kunci — disusun berurutan sesuai tahapan nyata proses beli properti di Indonesia.</div>
+          <div class="ec-stats">
+            <div class="ec-stat">
+              <span class="ec-stat-num">27</span>
+              <span class="ec-stat-lbl">Item checklist</span>
+            </div>
+            <div class="ec-stat">
+              <span class="ec-stat-num">6</span>
+              <span class="ec-stat-lbl">Fase pembelian</span>
+            </div>
+            <div class="ec-stat">
+              <span class="ec-stat-num">100%</span>
+              <span class="ec-stat-lbl">Interaktif</span>
+            </div>
+          </div>
+        </div>
+        <div class="ec-cta">
+          <span class="ec-price paid">Bayar seikhlasnya</span>
+          <a href="https://mayar.id/sekilasrumah/ebook2" target="_blank" class="ec-btn paid">Dapatkan Sekarang →</a>
+        </div>
       </div>
 
-      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
-        <div class="card-tag tag-red">⚠ Red Flag</div>
-        <h3>5 Red Flag Developer yang Sering Diabaikan Pembeli Baru</h3>
-        <p>Tanda-tanda ini sering terlihat jelas di awal, tapi banyak orang abaikan karena tergiur harga.</p>
-        <div class="card-arrow">Lihat di Instagram →</div>
-      </div>
-
-      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
-        <div class="card-tag tag-green">✓ Strategi</div>
-        <h3>Cash vs KPR: Mana yang Lebih Menguntungkan Secara Matematis?</h3>
-        <p>Jawabannya tidak sesederhana "lunasi cepat itu lebih baik" — ada banyak variabel yang menentukan.</p>
-        <div class="card-arrow">Lihat di Instagram →</div>
-      </div>
-
-      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
-        <div class="card-tag">Over Kredit</div>
-        <h3>Beli Rumah Over Kredit: Peluang atau Jebakan?</h3>
-        <p>Cara kerjanya, risiko yang jarang dijelaskan, dan langkah aman jika ingin mencobanya.</p>
-        <div class="card-arrow">Lihat di Instagram →</div>
-      </div>
-
-      <div class="content-card" onclick="window.open('https://www.instagram.com/sekilas.rumah/','_blank')">
-        <div class="card-tag">Negosiasi</div>
-        <h3>Cara Negosiasi Harga Properti yang Tidak Memalukan</h3>
-        <p>Apa yang boleh ditawar, berapa batas wajar, dan kalimat apa yang efektif digunakan ke penjual.</p>
-        <div class="card-arrow">Lihat di Instagram →</div>
+      <!-- ─── EDISI 3 (Coming Soon) ─── -->
+      <div class="ebook-card coming-soon reveal reveal-d2" data-type="paid">
+        <div class="coming-soon-badge">Segera Hadir</div>
+        <div class="ec-cover" style="opacity:0.4;">
+          <div class="ec-edition-badge ed2">Edisi Ketiga</div>
+          <div class="ec-bg-num" aria-hidden="true">?</div>
+          <div class="ec-cover-title">
+            Panduan<br><em>Negosiasi</em><br>Harga.
+          </div>
+          <div class="ec-gold-rule"></div>
+        </div>
+        <div class="ec-body" style="opacity:0.4;">
+          <div class="ec-meta">
+            <span class="ec-type paid">✦ Segera Hadir</span>
+            <span class="ec-series">Seri Panduan / E-03</span>
+          </div>
+          <div class="ec-title">Strategi Negosiasi Harga Properti</div>
+          <div class="ec-desc">Taktik negosiasi yang digunakan pembeli berpengalaman — kapan menunjukkan minat, kapan pura-pura mundur, dan cara membaca sinyal penjual.</div>
+        </div>
+        <div class="ec-cta" style="opacity:0.4;">
+          <span class="ec-price paid">Segera tersedia</span>
+          <span class="ec-btn paid" style="opacity:0.5;cursor:default;">Segera Hadir</span>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- FOOTER CTA -->
-<section class="footer-cta">
-  <div class="container">
-    <div class="section-label">Ikuti Perjalanan Kami</div>
-    <h2 class="section-title">Konten baru setiap minggu,<br/>langsung di Instagram.</h2>
-    <p>Bergabung dengan ribuan orang yang sedang belajar properti — tanpa tekanan, tanpa basa-basi.</p>
-    <a href="https://www.instagram.com/sekilas.rumah/" target="_blank" class="btn-ig">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      Ikuti @sekilas.rumah
-    </a>
-    <div class="footer-bottom">
-      © 2025 @sekilas.rumah · Edukasi Properti Indonesia · Bukan konsultan, bukan agen.
+<!-- ══ HOW IT WORKS ══ -->
+<section class="how section">
+  <div class="section-inner">
+    <div class="how-label reveal">Cara Kerja</div>
+    <h2 class="how-title reveal">Sesederhana<br><em>ini.</em></h2>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-step-num">01 — PILIH</div>
+        <div class="how-step-title">Pilih panduan yang kamu butuhkan</div>
+        <div class="how-step-desc">Mulai dari yang gratis jika kamu baru pertama kali mempertimbangkan beli properti. Lanjut ke edisi berikutnya saat kamu sudah punya kandidat yang serius.</div>
+      </div>
+      <div class="how-step reveal reveal-d1">
+        <div class="how-step-num">02 — AKSES</div>
+        <div class="how-step-title">Akses langsung, tanpa proses panjang</div>
+        <div class="how-step-desc">Klik tombol, selesaikan di Mayar (atau cukup masukkan email untuk yang gratis), dan panduan langsung bisa diakses dari browser kamu kapan saja.</div>
+      </div>
+      <div class="how-step reveal reveal-d2">
+        <div class="how-step-num">03 — GUNAKAN</div>
+        <div class="how-step-title">Bawa ke lapangan, bukan hanya dibaca</div>
+        <div class="how-step-desc">Setiap item dirancang untuk digunakan saat survei, negosiasi, atau duduk di depan dokumen — bukan sekadar konten yang dibaca lalu dilupakan.</div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ══ INSTAGRAM CTA ══ -->
+<section class="ig-strip section">
+  <div class="section-inner" style="position:relative;z-index:1;">
+    <div class="reveal">
+      <div class="ig-label">Konten Baru Setiap Minggu</div>
+      <h2 class="ig-headline">
+        E-book adalah permulaan.<br><em>Ikuti perjalanan lengkapnya.</em>
+      </h2>
+      <p class="ig-sub">
+        Setiap minggu kami bedah satu topik properti yang tidak diajarkan di manapun — langsung di Instagram, gratis selamanya.
+      </p>
+      <a href="https://instagram.com/sekilas.rumah" target="_blank" class="ig-btn">
+        📲 Follow @sekilas.rumah
+      </a>
+      <div class="ig-handle">@sekilas.rumah · Instagram</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <div class="footer-brand-name">sekilas.rumah</div>
+      <div class="footer-brand-tag">Wawasan Property. Bahasa Manusia.</div>
+      <p class="footer-desc">Panduan properti dari sisi pembeli. Bukan agen, bukan developer — hanya informasi yang jujur.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Perpustakaan</div>
+      <div class="footer-links">
+        <a href="#library" class="footer-link">
+          Edisi 1 — Jangan Tanda Tangan Dulu
+          <span class="footer-link-arrow">→</span>
+        </a>
+        <a href="#library" class="footer-link">
+          Edisi 2 — Checklist 27 Item
+          <span class="footer-link-arrow">→</span>
+        </a>
+        <a href="#library" class="footer-link" style="opacity:0.4;pointer-events:none;">
+          Edisi 3 — Segera Hadir
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Ikuti Kami</div>
+      <div class="footer-links">
+        <a href="https://instagram.com/sekilas.rumah" target="_blank" class="footer-link">
+          Instagram @sekilas.rumah
+          <span class="footer-link-arrow">→</span>
+        </a>
+        <a href="https://mayar.id/sekilasrumah" target="_blank" class="footer-link">
+          Toko di Mayar.id
+          <span class="footer-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 sekilas.rumah</span>
+    <span class="footer-disclaimer">Konten edukasi, bukan konsultasi hukum atau finansial. Selalu verifikasi dengan profesional sebelum transaksi.</span>
+  </div>
+</footer>
+
+<!-- Scroll Top -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll ke atas">↑</button>
 
 <script>
-function handleSubmit() {
-  var name  = document.getElementById('inp-name').value.trim();
-  var phone = document.getElementById('inp-phone').value.trim();
-  if (!name || !phone) {
-    alert('Isi nama dan nomor WhatsApp kamu dulu ya!');
-    return;
-  }
-  // Ganti 62XXXXXXXXXX dengan nomor WA admin aktif
-  var msg = encodeURIComponent(
-    'Halo @sekilas.rumah!\n\nNama saya ' + name +
-    ', nomor WA saya ' + phone +
-    '.\n\nSaya ingin download Checklist Beli Rumah Pertama 🏠'
-  );
-  window.open('https://wa.me/62XXXXXXXXXX?text=' + msg, '_blank');
+/* ── Scroll Reveal ── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ── Scroll Top ── */
+const scrollBtn = document.getElementById('scroll-top');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('visible', window.scrollY > 500);
+});
+
+/* ── Filter Catalog ── */
+function filterCatalog(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ebook-card').forEach(card => {
+    if (type === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      const match = card.dataset.type === type;
+      card.classList.toggle('hidden', !match);
+    }
+  });
 }
+
+/* ── Nav active link highlight on scroll ── */
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) cur = s.id;
+  });
+  document.querySelectorAll('.nav-link').forEach(a => {
+    const href = a.getAttribute('href').replace('#','');
+    a.style.color = href === cur ? 'rgba(245,240,232,0.85)' : '';
+  });
+}, { passive: true });
 </script>
 </body>
 </html>
+
